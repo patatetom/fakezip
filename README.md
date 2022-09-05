@@ -6,7 +6,8 @@ The Python script `fakezip` allows you to disguise a ZIP archive as a GIF image,
 It prepend a GIF header to the archive and rewrite its central directory by modifying the registered offsets.
 
 
-## usage
+
+## Usage
 
 ```
 python fakezip myzipfile
@@ -14,6 +15,12 @@ python fakezip myzipfile
 
 > Under Linux, `fakezip` can be made executable and installed in one of the folders of the `PATH`.
 > In this case, the command will simply be `fakezip myzipfile`
+
+
+
+## Examples
+
+
 
 ## ZIP file format
 
