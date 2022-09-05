@@ -2,13 +2,20 @@
 
 Despite the arrival of new compression formats such as 7Z, XZ or ZSTD, ZIP remains a very popular compression format.
 The transfer of a ZIP file can sometimes be forbidden for security reasons by the service used, in particular with password-protected archive.
-`fakezip` allows you to disguise a ZIP archive as a GIF image, while keeping its readability.
-`fakezip` prepend a GIF header to the archive and rewrite its central directory by modifying the registered offsets.
+The Python script `fakezip` allows you to disguise a ZIP archive as a GIF image, while keeping its readability.
+It prepend a GIF header to the archive and rewrite its central directory by modifying the registered offsets.
 
+
+## usage
+
+```
+python fakezip myzipfile
+```
+
+> Under Linux, `fakezip` can be made executable and installed in one of the folders of the `PATH`.
+> In this case, the command will simply be `fakezip myzipfile`
 
 ## ZIP file format
-
-(from [Wikipedia](https://en.wikipedia.org/wiki/ZIP_(file_format)))
 
 **Local file header**
 |      | Bytes | Description                                                      |
@@ -65,3 +72,5 @@ The transfer of a ZIP file can sometimes be forbidden for security reasons by th
 | 16     | 4     | Offset of start of central directory, relative to start of archive (or 0xffffffff for ZIP64) |
 | 20     | 2     | Comment length (n)                                                                           |
 | 22     | n     | Comment                                                                                      |
+
+(from [Wikipedia](https://en.wikipedia.org/wiki/ZIP_(file_format)))
