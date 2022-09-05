@@ -1,6 +1,9 @@
 # fakezip
 
-todo
+Despite the arrival of new compression formats such as 7Z, XZ or ZSTD, ZIP remains a very popular compression format.
+The transfer of a ZIP file can sometimes be forbidden for security by the service used, in particular for password-protected archive.
+`fakezip` allows you to _obfuscate_ a ZIP archive while keeping its readability.
+
 
 ## ZIP file format
 
