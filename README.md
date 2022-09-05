@@ -20,6 +20,8 @@ python fakezip myzipfile
 
 ## Examples
 
+### Standard ZIP
+
 ```
 $ zip -r9 test.zip fakezip/
   adding: fakezip/ (stored 0%)
@@ -28,7 +30,7 @@ $ zip -r9 test.zip fakezip/
   adding: fakezip/fakezip (deflated 57%)
 ```
 ```
-$ ls -lgG test.zip 
+$ ls -lgG test.zip
 -rw-rw-r-- 1 17117 sept.  5 20:53 test.zip
 
 $ zip -Tv test.zip
@@ -50,9 +52,43 @@ $ fakezip test.zip
 $ ls -lgG test.zip
 -rw-rw-r-- 1 17181 sept.  5 20:23 test.zip
 
-$ zip -Tv test.zip 
+$ zip -Tv test.zip
 Archive:  test.zip
+faked zip by fakezip
     testing: fakezip/                 OK
+    testing: fakezip/header.gif       OK
+    testing: fakezip/ZIP.internal.layout.svg   OK
+    testing: fakezip/fakezip          OK
+No errors detected in compressed data of test.zip.
+test of test.zip OK
+
+$ file test.zip
+test.zip: GIF image data, version 89a, 1 x 1
+```
+
+### Encrypted and commented ZIP
+
+```
+$ zip -zer9 test.zip fakezip/
+Enter password: 
+Verify password: 
+  adding: fakezip/ (stored 0%)
+  adding: fakezip/header.gif (deflated 17%)
+  adding: fakezip/ZIP.internal.layout.svg (deflated 79%)
+  adding: fakezip/fakezip (deflated 57%)
+enter new zip file comment (end with .):
+zip file comment            
+.
+```
+```
+$ fakezip test.zip
+```
+```
+$ zip -Tv test.zip
+Archive:  test.zip
+zip file comment (faked zip by fakezip)
+    testing: fakezip/                 OK
+[test.zip] fakezip/header.gif password: 
     testing: fakezip/header.gif       OK
     testing: fakezip/ZIP.internal.layout.svg   OK
     testing: fakezip/fakezip          OK
