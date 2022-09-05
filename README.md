@@ -1,8 +1,9 @@
 # fakezip
 
 Despite the arrival of new compression formats such as 7Z, XZ or ZSTD, ZIP remains a very popular compression format.
-The transfer of a ZIP file can sometimes be forbidden for security by the service used, in particular for password-protected archive.
-`fakezip` allows you to _obfuscate_ a ZIP archive while keeping its readability.
+The transfer of a ZIP file can sometimes be forbidden for security reasons by the service used, in particular with password-protected archive.
+`fakezip` allows you to disguise a ZIP archive as a GIF image, while keeping its readability.
+`fakezip` prepend a GIF header to the archive and rewrite its central directory by modifying the registered offsets.
 
 
 ## ZIP file format
