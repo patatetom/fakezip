@@ -1,0 +1,48 @@
+#!/usr/bin/python3
+
+mark = b'faked zip by fakezip'
+fake = b'GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\xff\xff\xff!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00@\x02\x01D\x00;'
+
+import struct, sys, tempfile
+
+with open(sys.argv[1], 'r+b') as zip, tempfile.TemporaryFile() as tmp :
+
+	header = zip.read(4)
+	assert header == b'PK\x03\x04', "bad header (not PK♥♦)"
+
+	try:
+		zip.seek(-1024, 2)
+	except:
+		pass
+	footer = zip.read()
+	footer = footer.split(b'PK\x05\x06')
+	assert len(footer) > 1, "bad footer (no EoCD) : may be long comment..."
+	footer = footer[-1]
+	footer, comment = footer[:16], footer[18:]
+	number, disk, records, total, size, offset = struct.unpack('=4H2I', footer)
+	assert number == disk, "multipart zip not supported"
+	assert records == total, "multipart zip not supported"
+	assert total, "empty zip file"
+	footer = b'PK\x05\x06'
+	footer += struct.pack('=4H2I', number, disk, records, total, size, (offset + len(fake)))
+	comment = (comment and (comment + b' (%s)' % mark) or mark)
+	footer += (struct.pack('H', len(comment)) + comment)
+
+	zip.seek(offset)
+	directory = zip.read(size)
+	directory = directory.split(b'PK\x01\x02')[1:]
+	assert len(directory) == records, "bad records (invalid number)"
+	for index, item in enumerate(directory):
+		left, (shift,), right = item[:38], struct.unpack('I', item[38:42]), item[42:]
+		directory[index] = left + struct.pack('I', (shift + len(fake))) + right
+	directory = b'PK\x01\x02' + b'PK\x01\x02'.join(directory)
+
+	zip.seek(0)
+	tmp.write(fake)
+	tmp.write(zip.read(offset))
+	tmp.write(directory)
+	tmp.write(footer)
+	tmp.seek(0)
+	zip.seek(0)
+	zip.write(tmp.read())
+
