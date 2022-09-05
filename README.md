@@ -48,3 +48,16 @@ todo
 | 46+n+m | k     | File comment                                                             |
 
 ¹ _This is the number of bytes between the start of the first disk on which the file occurs, and the start of the local file header. This allows software reading the central directory to locate the position of the file inside the ZIP file._
+
+**End of central directory record**
+| Offset | Bytes | Description                                                                                  |
+|--------|-------|----------------------------------------------------------------------------------------------|
+| 0      | 4     | End of central directory signature **0x06054b50** (or PK\0x05\0x06)                          |
+| 4      | 2     | Number of this disk (or 0xffff for ZIP64)                                                    |
+| 6      | 2     | Disk where central directory starts (or 0xffff for ZIP64)                                    |
+| 8      | 2     | Number of central directory records on this disk (or 0xffff for ZIP64)                       |
+| 10     | 2     | Total number of central directory records (or 0xffff for ZIP64)                              |
+| 12     | 4     | Size of central directory (bytes) (or 0xffffffff for ZIP64)                                  |
+| 16     | 4     | Offset of start of central directory, relative to start of archive (or 0xffffffff for ZIP64) |
+| 20     | 2     | Comment length (n)                                                                           |
+| 22     | n     | Comment                                                                                      |
